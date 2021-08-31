@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Staging Apk
-          path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
+          path: app/build/outputs/apk/android/staging/app-android-debug.apk
 
       # Assemble Android Release Apk
       - name: Release Apk Assemble
