@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew assemble
 
       # Assemble Debug Apk
-      - name: Debug Apk
+      - name: Debug Apk Assemble
         run: ./gradlew assembleAndroidDebug
 
       # Artifact for Debug Apk
@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Debug Apk
-          path: app/build/outputs/apk/android/debug/app-android-debug-unsigned.apk
+          path: app/build/outputs/apk/android/debug/app-android-debug.apk
 
       # Assemble Android Staging Apk
       - name: Satge Apk Assemble
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Staging Apk
-          path: app/build/outputs/apk/android/staging/app-android-debug.apk
+          path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
 
       # Assemble Android Release Apk
       - name: Release Apk Assemble
