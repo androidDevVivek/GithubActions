@@ -1,0 +1,34 @@
+# name for the Workflow
+name: Android Build by CI/CD
+
+# Action which trigger this workflow
+on: pull_request
+
+# Jobs we want to perform every job will have it's own virtual machine
+jobs:
+  build:
+    #Environment for running the Job
+    runs-on: ubuntu-latest
+
+    # Tasks we want to perform
+    steps:
+      # This step will checkout to current repo on current runnable file system
+      - name: CheckOut
+        uses: actions/checkout@v1
+
+      # SetUp Java JDK
+      - name: SetUp Java JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 1.8
+
+      # SetUp Gradle for Linux
+      - name: Gradle Executable
+        run: chmod +x ./gradlew
+
+      # Clean App
+      - name: Clean Build
+        run: ./gradlew clean
+
+
+
