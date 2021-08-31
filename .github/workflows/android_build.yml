@@ -47,7 +47,7 @@ jobs:
         uses: actions/uplaod-artifact@v1
         with:
           name: Staging Apk
-          path: app/build/outputs/apk/android/staging/pp-android-staging-unsigned.apk
+          path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
 
 
 
