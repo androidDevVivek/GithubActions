@@ -44,7 +44,7 @@ jobs:
 
       # Artifact for Staging Apk
       - name: Staging Apk Artifact
-        uses: actions/uplaod-artifact@v1
+        uses: actions/upload-artifact@v1
         with:
           name: Staging Apk
           path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
