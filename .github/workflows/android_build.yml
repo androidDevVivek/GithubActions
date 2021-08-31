@@ -30,5 +30,24 @@ jobs:
       - name: Clean Build
         run: ./gradlew clean --stacktrace
 
+      # Test build
+      - name: Run Test
+        run: ./gradlew test
+
+      # Build Project
+      - name: Build Project
+        run: ./gradlew assemble
+
+      # Assemble Android Staging Apk
+      - name: Satge Apk Assemble
+        run: ./gradlew assembleAndroidStaging
+
+      # Artifact for Staging Apk
+      - name: Staging Apk Artifact
+        uses: actions/uplaod-artifact@v1
+        with:
+          name: Staging Apk
+          path: app/build/outputs/apk/android/staging/pp-android-staging-unsigned.apk
+
 
 
