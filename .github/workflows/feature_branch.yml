@@ -3,83 +3,43 @@ name: Build Feature Branch
 on:
   push:
     branches: 'development_**'
-
+# Jobs we want to perform every job will have it's own virtual machine
 jobs:
-  test_job:
-    name: Test
+  build:
+    #Environment for running the Job
     runs-on: ubuntu-latest
+
+    # Tasks we want to perform
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      # This step will checkout to current repo on current runnable file system
+      - name: CheckOut
+        uses: actions/checkout@v1
 
-      - name: Restore Cache
-        uses: actions/cache@v2
+      # SetUp Java JDK
+      - name: SetUp Java JDK
+        uses: actions/setup-java@v1
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          java-version: 11
 
-      - name: Run Debug Tests
-        run: ./gradlew testDebugUnitTest --continue
+      # SetUp Gradle for Linux
+      - name: Gradle Executable
+        run: chmod +x ./gradlew
 
-      - name: Upload Test Reports
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-reports
-          path: '**/build/reports/tests/'
+      # Clean App
+      - name: Clean Build
+        run: ./gradlew clean --stacktrace
 
+      # Test build
+      - name: Run Test
+        run: ./gradlew test
 
-  lint_job:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
+      # Build Project
+      - name: Build Project
+        run: ./gradlew assemble
 
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Run Debug Lint
-        run: ./gradlew lintDebug
-
-      - name: Upload Lint Reports
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: lint-report
-          path: '**/build/reports/lint-results-*'
-
-  assemble_distribute_job:
-    needs: [ test_job, lint_job ]
-    name: Assemble and Upload to Firebase
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Assemble
-        run: ./gradlew assembleDebug
+      # Assemble Debug Apk
+      - name: Debug Apk Assemble
+        run: ./gradlew assembleAndroidDebug
 
       # Artifact for Debug Apk
       - name: Debug Apk Artifact
@@ -87,3 +47,25 @@ jobs:
         with:
           name: Debug Apk
           path: app/build/outputs/apk/android/debug/app-android-debug.apk
+
+      # Assemble Android Staging Apk
+      - name: Satge Apk Assemble
+        run: ./gradlew assembleAndroidStaging
+
+      # Artifact for Staging Apk
+      - name: Staging Apk Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Staging Apk
+          path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
+
+      # Assemble Android Release Apk
+      - name: Release Apk Assemble
+        run: ./gradlew assembleAndroidRelease
+
+      # Artifact for Release Apk
+      - name: Release Apk Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Release Apk
+          path: app/build/outputs/apk/android/release/app-android-release-unsigned.apk
