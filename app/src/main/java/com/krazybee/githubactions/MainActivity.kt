@@ -11,4 +11,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Toast.makeText(this, "1.2", Toast.LENGTH_LONG).show()
     }
+
+    override fun onStart() {
+        super.onStart()
+        Toast.makeText(this, "onStart", Toast.LENGTH_LONG).show()
+    }
 }
