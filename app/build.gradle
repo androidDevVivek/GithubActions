@@ -3,10 +3,34 @@ plugins {
     id 'kotlin-android'
 }
 
+// Create a variable called keystorePropertiesFile, and initialize it to your
+// local.properties file, in the rootProject folder.
+def keystorePropertiesFile = rootProject.file("local.properties")
+
+// Initialize a new Properties() object called keystoreProperties.
+def keystoreProperties = new Properties()
+
+// Load keystore properties from local.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdk 31
     buildFeatures {
         viewBinding true
+    }
+    signingConfigs {
+        Release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file('../keystore_github_action.jks')
+            storePassword keystoreProperties['storePassword']
+        }
+        Staging {
+            keyAlias keystoreProperties['keyAliasStage']
+            keyPassword keystoreProperties['keyPasswordStage']
+            storeFile file('../keystore_stage_github.jks')
+            storePassword keystoreProperties['storePasswordStage']
+        }
     }
     defaultConfig {
         applicationId "com.krazybee.githubactions"
@@ -25,12 +49,14 @@ android {
             shrinkResources true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.Release
         }
         staging {
             minifyEnabled false
             debuggable true
             shrinkResources false
             applicationIdSuffix '.stage'
+            signingConfig signingConfigs.Staging
         }
         debug {
             minifyEnabled false
