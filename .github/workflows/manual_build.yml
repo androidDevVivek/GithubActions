@@ -2,28 +2,6 @@ name: Manual Generate APK
 on:
   workflow_dispatch:
 
-    inputs:
-
-      baseUrl:
-        description: 'Base URL'
-        required: true
-        default: 'https://qa4.buynsta.com/'
-
-      apiKey:
-        description: 'Back End Base URL'
-        required: true
-        default: 'https://j8s51w4tyf.execute-api.ap-south-1.amazonaws.com/'
-
-      gateway:
-        description: 'App Gateway'
-        required: true
-        default: 'q4'
-
-      appType:
-        description: 'App Type'
-        required: true
-        default: 'android'
-
 jobs:
   apk:
     name: Generate Debug APK
@@ -52,18 +30,3 @@ jobs:
       # Test build
       - name: Run Test
         run: ./gradlew test
-
-      # Build Project
-      - name: Build Project
-        run: ./gradlew assemble
-
-      # Assemble Debug Apk
-      - name: Debug Apk Assemble
-        run: ./gradlew assembleAndroidDebug
-
-      # Artifact for Debug Apk
-      - name: Debug Apk Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: Debug Apk
-          path: app/build/outputs/apk/android/debug/app-android-debug.apk
