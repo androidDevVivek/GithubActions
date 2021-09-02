@@ -36,7 +36,7 @@ android {
         applicationId "com.krazybee.githubactions"
         minSdk 21
         targetSdk 31
-        compileSdkVersion 27
+        compileSdkVersion 31
         versionCode 1
         versionName "1.0"
 

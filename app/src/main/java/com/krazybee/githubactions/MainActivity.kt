@@ -16,4 +16,8 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Toast.makeText(this, "onStart", Toast.LENGTH_LONG).show()
     }
+
+    override fun onRestart() {
+        super.onRestart()
+    }
 }
