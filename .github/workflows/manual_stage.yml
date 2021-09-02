@@ -1,0 +1,18 @@
+name: Manual Workflow Stage
+on:
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Setup Java JDK
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Java JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+
