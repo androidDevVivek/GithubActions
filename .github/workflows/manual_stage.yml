@@ -16,7 +16,7 @@ jobs:
           java-version: 11
 
 
-      # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
+ # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
       - name: Decode Secrets to Create local properties file
 
         run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
@@ -75,4 +75,3 @@ jobs:
         with:
           name: Release Apk
           path: app/build/outputs/apk/android/release/app-android-release.apk
-
