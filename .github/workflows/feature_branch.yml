@@ -3,6 +3,7 @@ name: Build Feature Branch
 on:
   push:
     branches: 'development_**'
+  workflow_dispatch:
 # Jobs we want to perform every job will have it's own virtual machine
 jobs:
   build:
@@ -58,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Debug Apk
-          path: ${{ github.workspace }}/app/build/outputs/apk/android/debug/**.apk
+          path: app/build/outputs/apk/android/debug/app-android-debug.apk
 
       # Assemble Android Staging Apk
       - name: Satge Apk Assemble
@@ -69,7 +70,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Staging Apk
-          path: ${{ github.workspace }}/app/build/outputs/apk/android/*/**.apk
+          path: app/build/outputs/apk/android/staging/app-android-staging.apk
 
       # Assemble Android Release Apk
       - name: Release Apk Assemble
@@ -80,4 +81,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Release Apk
-          path: ${{ github.workspace }}/app/build/outputs/apk/android/release/**.apk
+          path: app/build/outputs/apk/android/release/app-android-release.apk
