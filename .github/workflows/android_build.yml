@@ -22,6 +22,17 @@ jobs:
         with:
           java-version: 11
 
+
+      # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
+      - name: Decode Secrets to Create local properties file
+
+      - run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
+      - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
+      - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
+      - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
+
       # SetUp Gradle for Linux
       - name: Gradle Executable
         run: chmod +x ./gradlew
