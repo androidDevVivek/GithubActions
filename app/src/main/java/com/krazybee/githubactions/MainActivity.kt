@@ -14,10 +14,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Toast.makeText(this, "onStart", Toast.LENGTH_LONG).show()
+
     }
 
     override fun onRestart() {
         super.onRestart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Toast.makeText(this, "onPause", Toast.LENGTH_LONG).show()
     }
 }
