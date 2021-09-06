@@ -3,6 +3,7 @@ name: Build Feature Branch
 on:
   push:
     branches: 'development_**'
+  workflow_dispatch:
 # Jobs we want to perform every job will have it's own virtual machine
 jobs:
   build:
@@ -20,6 +21,18 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
+
+      # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
+      - name: Decode Secrets to Create local properties file
+
+        run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
+      - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
+      - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
+      - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
+
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
@@ -57,7 +70,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Staging Apk
-          path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
+          path: app/build/outputs/apk/android/staging/app-android-staging.apk
 
       # Assemble Android Release Apk
       - name: Release Apk Assemble
@@ -68,4 +81,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Release Apk
-          path: app/build/outputs/apk/android/release/app-android-release-unsigned.apk
+          path: app/build/outputs/apk/android/release/app-android-release.apk
