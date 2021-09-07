@@ -32,7 +32,7 @@ jobs:
       - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
       - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
       - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
-      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.propert
+      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
@@ -84,7 +84,7 @@ jobs:
      - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
      - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
      - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
-     - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.propert
+     - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
 
      # SetUp Gradle for Linux
      - name: Gradle Executable
