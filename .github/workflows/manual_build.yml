@@ -5,13 +5,12 @@ on:
       type:
         description: 'Build Type'
         required: true
-        options: ['staging','release']
         default: 'staging'
 
 
 jobs:
   build_production:
-    if: ${{github.inpus.type == 'release'}} #for production check
+    if: ${{github.events.inputs.type}} == 'release'
 
     runs-on: ubuntu-latest
 
@@ -64,52 +63,52 @@ jobs:
 
   build_qa:
 
-   if: ${{github.inpus.type != 'release'}} #for qa check
+    if: ${{github.inpus.type != 'release'}} #for qa check
 
-   runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-   steps:
+    steps:
 
-     #Set Up Java 11
-     - name: Checkout
-       uses: actions/checkout@v1
-     - name: Setup Java JDK 11
-       uses: actions/setup-java@v1
-       with:
-         java-version: 11
+      #Set Up Java 11
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Java JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
 
-     # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
-     - name: Decode Secrets to Create local properties
-       run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
-     - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
-     - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
-     - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
-     - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
-     - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
+      # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
+      - name: Decode Secrets to Create local properties
+        run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
+      - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
+      - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
+      - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
 
-     # SetUp Gradle for Linux
-     - name: Gradle Executable
-       run: chmod +x ./gradlew
+      # SetUp Gradle for Linux
+      - name: Gradle Executable
+        run: chmod +x ./gradlew
 
-     # Clean App
-     - name: Clean Build
-       run: ./gradlew clean --stacktrace
+      # Clean App
+      - name: Clean Build
+        run: ./gradlew clean --stacktrace
 
-     # Test build
-     - name: Run Test
-       run: ./gradlew test
+      # Test build
+      - name: Run Test
+        run: ./gradlew test
 
-     # Build Project
-     - name: Build Project
-       run: ./gradlew assemble
+      # Build Project
+      - name: Build Project
+        run: ./gradlew assemble
 
-     # Assemble Android Staging Apk
-     - name: Satge Apk Assemble
-       run: ./gradlew assembleAndroidStaging
+      # Assemble Android Staging Apk
+      - name: Satge Apk Assemble
+        run: ./gradlew assembleAndroidStaging
 
-     # Artifact for Staging Apk
-     - name: Staging Apk Artifact
-       uses: actions/upload-artifact@v1
-       with:
-         name: Staging Apk
-         path: app/build/outputs/apk/android/staging/app-android-staging.apk
+      # Artifact for Staging Apk
+      - name: Staging Apk Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Staging Apk
+          path: app/build/outputs/apk/android/staging/app-android-staging.apk
