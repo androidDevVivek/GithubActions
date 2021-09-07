@@ -5,6 +5,7 @@ on:
       type:
         description: 'Build Type'
         required: true
+        options: ['staging','release']
         default: 'staging'
 
 
