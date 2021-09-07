@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Toast.makeText(this, "onPause", Toast.LENGTH_LONG).show()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show()
     }
 }
