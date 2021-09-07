@@ -63,7 +63,7 @@ jobs:
 
   build_qa:
 
-    if: ${{github.inpus.type != 'release'}} #for qa check
+    if: ${{github.events.inputs.type}} != 'release'
 
     runs-on: ubuntu-latest
 
