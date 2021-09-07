@@ -1,23 +1,38 @@
 name: Manual Generate APK
 on:
   workflow_dispatch:
+    inputs:
+      type:
+        description: 'Build Type'
+        required: true
+        default: 'staging'
+
 
 jobs:
-  apk:
-    name: Generate Debug APK
+  build_production:
+    if: ${{github.inpus.type == 'release'}} #for production check
+
     runs-on: ubuntu-latest
 
-    # Tasks we want to perform
     steps:
-      # This step will checkout to current repo on current runnable file system
-      - name: CheckOut
-        uses: actions/checkout@v1
 
-      # SetUp Java JDK
-      - name: SetUp Java JDK 11
+      #Set Up Java 11
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Java JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
+
+      # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
+      - name: Decode Secrets to Create local properties
+        run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
+      - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
+      - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
+      - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.propert
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
@@ -30,3 +45,70 @@ jobs:
       # Test build
       - name: Run Test
         run: ./gradlew test
+
+      # Build Project
+      - name: Build Project
+        run: ./gradlew assemble
+
+      # Assemble Android Release Apk
+      - name: Release Apk Assemble
+        run: ./gradlew assembleAndroidRelease
+
+      # Artifact for Release Apk
+      - name: Release Apk Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: Release Apk
+          path: app/build/outputs/apk/android/release/app-android-release.apk
+
+  build_qa:
+
+   if: ${{github.inpus.type != 'release'}} #for qa check
+
+   runs-on: ubuntu-latest
+
+   steps:
+
+     #Set Up Java 11
+     - name: Checkout
+       uses: actions/checkout@v1
+     - name: Setup Java JDK 11
+       uses: actions/setup-java@v1
+       with:
+         java-version: 11
+
+     # Setup Runtime Local Properties Generation & Credentials configured in G
+     - name: Decode Secrets to Create local properties
+       run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
+     - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.pr
+     - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.
+     - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.prope
+     - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> loc
+     - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> l
+
+     # SetUp Gradle for Linux
+     - name: Gradle Executable
+       run: chmod +x ./gradlew
+
+     # Clean App
+     - name: Clean Build
+       run: ./gradlew clean --stacktrace
+
+     # Test build
+     - name: Run Test
+       run: ./gradlew test
+
+     # Build Project
+     - name: Build Project
+       run: ./gradlew assemble
+
+     # Assemble Android Staging Apk
+     - name: Satge Apk Assemble
+       run: ./gradlew assembleAndroidStaging
+
+     # Artifact for Staging Apk
+     - name: Staging Apk Artifact
+       uses: actions/upload-artifact@v1
+       with:
+         name: Staging Apk
+         path: app/build/outputs/apk/android/staging/app-android-staging.apk
