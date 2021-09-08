@@ -10,7 +10,7 @@ on:
 
 jobs:
   build_production:
-    if: ${{ github.event.inputs.type }} == 'release'
+    if: ${{ github.event.inputs.type }} == release
 
     runs-on: ubuntu-latest
 
@@ -35,7 +35,7 @@ jobs:
       - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
       - run: |
           echo "Log type: ${{ github.event.inputs.type }}"
-          echo "${{ github.event.inputs.type }} == 'release'"
+          echo "${{ github.event.inputs.type }} == release"
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
@@ -66,7 +66,7 @@ jobs:
 
   build_qa:
 
-    if: ${{ github.event.inputs.type }} != 'release'
+    if: ${{ github.event.inputs.type }} != release
 
     runs-on: ubuntu-latest
 
@@ -90,7 +90,7 @@ jobs:
       - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
       - run: |
           echo "Log type: ${{ github.event.inputs.type }}"
-          echo "${{ github.event.inputs.type }} != 'release'"
+          echo "${{ github.event.inputs.type }} != release"
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
