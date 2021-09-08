@@ -33,7 +33,7 @@ jobs:
       - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
       - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
       - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
-      - run: echo type={{github.events.input.type}}
+      - run: echo type=${{github.events.input.type}}
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
@@ -86,7 +86,7 @@ jobs:
       - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
       - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
       - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
-      - run: echo type={{github.events.input.type}}
+      - run: echo type=${{github.events.input.type}}
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
