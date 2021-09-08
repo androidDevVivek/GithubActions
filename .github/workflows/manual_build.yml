@@ -10,9 +10,10 @@ on:
 
 jobs:
   build_production:
-    if: ${{ github.event.inputs.type }} == release
-
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.type == 'release' }}
+
+
 
     steps:
 
@@ -65,10 +66,10 @@ jobs:
           path: app/build/outputs/apk/android/release/app-android-release.apk
 
   build_qa:
-
-    if: ${{ github.event.inputs.type }} != release
-
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.type != 'release' }}
+
+
 
     steps:
 
