@@ -2,7 +2,9 @@
 name: Android Build by CI/CD
 
 # Action which trigger this workflow
-on: pull_request
+on:
+  pull_request:
+  push:
 
 # Jobs we want to perform every job will have it's own virtual machine
 jobs:
@@ -69,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Staging Apk
-          path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
+          path: app/build/outputs/apk/android/staging/app-android-staging.apk
 
       # Assemble Android Release Apk
       - name: Release Apk Assemble
@@ -80,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Release Apk
-          path: app/build/outputs/apk/android/release/app-android-release-unsigned.apk
+          path: app/build/outputs/apk/android/release/app-android-release.apk
 
 
 
