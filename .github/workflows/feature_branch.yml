@@ -1,9 +1,9 @@
-# name for the Workflow
-name: Android Build by CI/CD
+name: Build Feature Branch
 
-# Action which trigger this workflow
-on: pull_request
-
+on:
+  push:
+    branches: 'development_**'
+  workflow_dispatch:
 # Jobs we want to perform every job will have it's own virtual machine
 jobs:
   build:
@@ -32,6 +32,7 @@ jobs:
       - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
       - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
       - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
+
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
@@ -69,7 +70,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Staging Apk
-          path: app/build/outputs/apk/android/staging/app-android-staging-unsigned.apk
+          path: app/build/outputs/apk/android/staging/app-android-staging.apk
 
       # Assemble Android Release Apk
       - name: Release Apk Assemble
@@ -80,7 +81,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Release Apk
-          path: app/build/outputs/apk/android/release/app-android-release-unsigned.apk
-
-
-
+          path: app/build/outputs/apk/android/release/app-android-release.apk

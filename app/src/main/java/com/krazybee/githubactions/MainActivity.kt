@@ -1,30 +1,33 @@
 package com.krazybee.githubactions
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
-    companion object {
-        const val TAG = "MainActivity"
-    }
 
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d(TAG, "onCreate: ")
+        Toast.makeText(this, "1.2", Toast.LENGTH_LONG).show()
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart: ")
+
     }
 
     override fun onRestart() {
         super.onRestart()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onPause() {
+        super.onPause()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Toast.makeText(this, "onStop", Toast.LENGTH_LONG).show()
     }
 }
