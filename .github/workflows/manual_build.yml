@@ -39,6 +39,7 @@ jobs:
       - run: |
           echo "Log type: ${{ github.event.inputs.type }}"
           echo "${{ github.event.inputs.type }} == release"
+      - run: cat local.properties
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
