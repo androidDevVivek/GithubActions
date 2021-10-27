@@ -29,13 +29,16 @@ jobs:
 
       # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
       - name: Decode Secrets to Create local properties
-        run: keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
-      - run: keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
-      - run: storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
-      - run: keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
-      - run: keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
-      - run: storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
-      - run: PROJ_NAME=${{ secrets.PROJ_NAME }} >> local.properties
+        run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
+      - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
+      - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
+      - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
+      - run: echo PROJ_NAME=${{ secrets.PROJ_NAME }} >> local.properties
+      - run: |
+          echo "Log type: ${{ github.event.inputs.type }}"
+          echo "${{ github.event.inputs.type }} == release"
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
@@ -82,12 +85,15 @@ jobs:
 
       # Setup Runtime Local Properties Generation & Credentials configured in Github Secrets
       - name: Decode Secrets to Create local properties
-        run: keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
-      - run: keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
-      - run: storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
-      - run: keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
-      - run: keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
-      - run: storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
+        run: echo keyAlias=${{ secrets.RELEASE_ALIAS_KEY }} >> local.properties
+      - run: echo keyPassword=${{ secrets.RELEASE_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePassword=${{ secrets.RELEASE_STORE_PASSWORD }} >> local.properties
+      - run: echo keyAliasStage=${{ secrets.STAGING_ALIAS_KEY }} >> local.properties
+      - run: echo keyPasswordStage=${{ secrets.STAGING_ALIAS_PASSWORD }} >> local.properties
+      - run: echo storePasswordStage=${{ secrets.STAGING_STORE_PASSWORD }} >> local.properties
+      - run: |
+          echo "Log type: ${{ github.event.inputs.type }}"
+          echo "${{ github.event.inputs.type }} != release"
 
       # SetUp Gradle for Linux
       - name: Gradle Executable
