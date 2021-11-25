@@ -61,12 +61,30 @@ jobs:
       - name: Release Apk Assemble
         run: ./gradlew assembleAndroidRelease
 
-      # Artifact for Release Apk
-      - name: Release Apk Artifact
-        uses: actions/upload-artifact@v1
+      # Sign APK
+      - name: Sign APP
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
         with:
-          name: Release Apk
-          path: app/build/outputs/apk/android/release/app-android-release.apk
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.RELEASE_KEY_FILE }}
+          alias: ${{ secrets.RELEASE_ALIAS_KEY }}
+          keyStorePassword: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.RELEASE_KEY_FILE_PASS_PHRASE }}
+
+      # Upload Artifact
+      - uses: actions/upload-artifact@master
+        with:
+          name: release.apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+
+      # Mapping File
+      - uses: actions/upload-artifact@master
+        with:
+          name: mapping.txt
+          path: app/build/outputs/mapping/release/mapping.txt
+
+
 
   build_qa:
     runs-on: macos-latest
