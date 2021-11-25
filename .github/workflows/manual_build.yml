@@ -67,10 +67,10 @@ jobs:
         id: sign_app
         with:
           releaseDirectory: app/build/outputs/apk/android/release
-          signingKeyBase64: ${{ secrets.RELEASE_KEY_FILE }}
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.RELEASE_ALIAS_KEY }}
           keyStorePassword: ${{ secrets.RELEASE_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.RELEASE_KEY_FILE_PASS_PHRASE }}
+          keyPassword: ${{ secrets.RELEASE_ALIAS_PASSWORD }}
 
       # Upload Artifact
       - uses: actions/upload-artifact@master
