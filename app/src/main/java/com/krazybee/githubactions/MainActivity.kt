@@ -3,6 +3,7 @@ package com.krazybee.githubactions
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,4 +35,8 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Toast.makeText(this, "1.0", Toast.LENGTH_LONG).show()
     }
+}
+
+object Simple{
+
 }
