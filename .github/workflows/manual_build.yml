@@ -71,28 +71,28 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
 
 
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: Build Artifacts
-          path: app/build/outputs/
+#     - name: Upload
+#       uses: actions/upload-artifact@v2
+#       with:
+#         name: Build Artifacts
+#         path: app/build/outputs/
 
-    #  # Sign APK
-    #  - name: Sign APP
-    #    uses: r0adkll/sign-android-release@v1
-    #    id: sign_app
-    #    with:
-    #      releaseDirectory: app/build/outputs/apk/android/release
-    #      signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-    #      alias: ${{ secrets.RELEASE_ALIAS_KEY }}
-    #      keyStorePassword: ${{ secrets.RELEASE_STORE_PASSWORD }}
-    #      keyPassword: ${{ secrets.RELEASE_ALIAS_PASSWORD }}
-#
-    #  # Upload Artifact
-    #  - uses: actions/upload-artifact@master
-    #    with:
-    #      name: release.apk
-    #      path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      # Sign APK
+      - name: Sign APP
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/android/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.RELEASE_ALIAS_KEY }}
+          keyStorePassword: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.RELEASE_ALIAS_PASSWORD }}
+
+      # Upload Artifact
+      - uses: actions/upload-artifact@master
+        with:
+          name: release.apk
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       # Mapping File
       - uses: actions/upload-artifact@master
