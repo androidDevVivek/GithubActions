@@ -53,10 +53,6 @@ jobs:
       - name: Run Test
         run: ./gradlew test
 
-      # Build Project
-      - name: Build Project
-        run: ./gradlew assemble
-
       # Assemble Android Release Apk
       - name: Release Apk Assemble
         run: ./gradlew assembleAndroidRelease
