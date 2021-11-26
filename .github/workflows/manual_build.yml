@@ -55,7 +55,7 @@ jobs:
 
       # Assemble Release
       - name: Assesmle Release
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleAndroidRelease
 
       # Sign APK
       - name: Sign APP
