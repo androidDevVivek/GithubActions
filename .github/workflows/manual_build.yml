@@ -77,7 +77,6 @@ jobs:
           path: app/build/outputs/mapping/androidRelease/mapping.txt
 
 
-
   build_qa:
     runs-on: macos-latest
     if: ${{ github.event.inputs.type != 'release' }}
