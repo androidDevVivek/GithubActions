@@ -19,7 +19,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    signingConfigs {
+    /*signingConfigs {
         Release {
             def tmpFilePath = System.getProperty("user.home") + "/work/_temp/keystore/"
             def allFilesFromDir = new File(tmpFilePath).listFiles()
@@ -40,7 +40,7 @@ android {
             storeFile file('../keystore_stage_github.jks')
             storePassword keystoreProperties['storePasswordStage']
         }
-    }
+    }*/
     defaultConfig {
         applicationId "com.krazybee.githubactions"
         minSdk 21
@@ -58,14 +58,14 @@ android {
             shrinkResources true
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.Release
+            //signingConfig signingConfigs.Release
         }
         staging {
             minifyEnabled false
             debuggable true
             shrinkResources false
-            applicationIdSuffix '.stage'
-            signingConfig signingConfigs.Staging
+            //applicationIdSuffix '.stage'
+            //signingConfig signingConfigs.Staging
         }
         debug {
             minifyEnabled false
