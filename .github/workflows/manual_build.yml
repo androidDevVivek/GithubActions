@@ -59,14 +59,14 @@ jobs:
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/apk/release
+          releaseDirectory: ${{ github.workspace }}/app/build/outputs/apk/android/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.RELEASE_ALIAS_KEY }}
           keyStorePassword: ${{ secrets.RELEASE_STORE_PASSWORD }}
           keyPassword: ${{ secrets.RELEASE_ALIAS_PASSWORD }}
 
       # Upload Artifact
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v1
         with:
           name: release.apk
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
