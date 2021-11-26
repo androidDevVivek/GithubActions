@@ -53,6 +53,10 @@ jobs:
       - name: Run Test
         run: ./gradlew test
 
+      # Assemble Release
+      - name: Assesmle Release
+        run: ./gradlew assembleRelease
+
       # Sign APK
       - name: Sign APP
         uses: r0adkll/sign-android-release@v1
