@@ -60,7 +60,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             //signingConfig signingConfigs.Release
         }
-        staging {
+        /*staging {
             minifyEnabled false
             debuggable true
             shrinkResources false
@@ -72,14 +72,14 @@ android {
             debuggable true
             shrinkResources false
             applicationIdSuffix '.debug'
-        }
+        }*/
     }
-    flavorDimensions "store"
+  /*  flavorDimensions "store"
     productFlavors {
         android {
             dimension "store"
         }
-    }
+    }*/
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

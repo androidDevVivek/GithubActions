@@ -63,12 +63,8 @@ jobs:
       - name: Run Test
         run: ./gradlew test
 
-      - name: build prod
+      - name: Assemble Android APK
         run: ./gradlew assembleRelease
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.RELEASE_ALIAS_KEY }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.RELEASE_ALIAS_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
 
 
 #     - name: Upload
@@ -82,16 +78,17 @@ jobs:
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/
+          releaseDirectory: app/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.RELEASE_ALIAS_KEY }}
           keyStorePassword: ${{ secrets.RELEASE_STORE_PASSWORD }}
           keyPassword: ${{ secrets.RELEASE_ALIAS_PASSWORD }}
 
       # Upload Artifact
-      - uses: actions/upload-artifact@master
+      - name: Artifact APK
+      - uses: actions/upload-artifact@v2
         with:
-          name: release.apk
+          name: Signed Release APK
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       # Mapping File
