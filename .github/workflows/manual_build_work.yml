@@ -1,4 +1,4 @@
-name: Manual Generate APK
+name: Manual Workflow
 
 on:
   workflow_dispatch:
@@ -68,11 +68,11 @@ jobs:
         run: ./gradlew assembleRelease
 
 
-#     - name: Upload
-#       uses: actions/upload-artifact@v2
-#       with:
-#         name: Build Artifacts
-#         path: app/build/outputs/
+      #     - name: Upload
+      #       uses: actions/upload-artifact@v2
+      #       with:
+      #         name: Build Artifacts
+      #         path: app/build/outputs/
 
       # Sign APK
       - name: Sign APP
