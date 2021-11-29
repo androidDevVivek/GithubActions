@@ -12,7 +12,6 @@ jobs:
   # This workflow contains a single job called "build"
   assemble_release:
     # The type of runner that the job will run on
-    name: Runner Mac OS
     runs-on: macos-10.15
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -44,7 +43,7 @@ jobs:
 
       # Upload Artifact
       - name: Artifact APK
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: Signed Release APK
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
